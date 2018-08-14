@@ -42,7 +42,7 @@ Auto=read.table("Auto.data",header=T,na.strings="?",stringsAsFactors=F)
 head(Auto$name)
 Auto=read.table("Auto.data",header=T,na.strings="?")
 
-save(Auto, file="Auto.RData", compress='xz') # ".rda" also common
+save(Auto, file="Auto.RData", compress='xz') # ".rda" also common  - save a df to load it back in later
 load("Auto.RData")
 
 file.size("Auto.data", "Auto.RData")
@@ -97,29 +97,39 @@ file.size("Auto.data", "Auto.RData", "Auto.sqlite")
 ###########################
 
 ## 1. Change the working directory to your directory of choice.
-
+setwd("/Users/msenosain/Documents/GitHub_Mafe/cqs-ml-stat-r/R")
 
 ## 2. Use the "read.csv" and "url" functions to download and read the "Auto.csv"
 ##    file from the following URL: http://www-bcf.usc.edu/~gareth/ISL/Auto.csv".
-
+bf <- read.csv(url("http://www-bcf.usc.edu/~gareth/ISL/Auto.csv"))
 
 ## 3. Write the downloaded data to a local CSV file using "write.csv".
-
+write.csv(bf, file = 'task3.csv' )
 
 ## 4. Compare the size of the CSV file with that of the whitespace delimited,
 ##    RData, and SQLite files.
-
+file.size('task3.csv', "Auto.data", "Auto.RData", "Auto.sqlite")
 
 ## 5. Open the "Auto.sqlite" database and modify the SQL query to select only 
 ##    values from the "name" field, subsetting to cars made in 1970 with 8
 ##    cylinders. Close the database.
-
+con <- dbConnect(RSQLite::SQLite(), "Auto.sqlite")
+dbWriteTable(con, "Auto", Auto)
+dbListTables(con)
+dbGetQuery(con, "SELECT name FROM Auto  WHERE year=70 AND cylinders=8")
+dbDisconnect(con)
 
 ## 6. Write a simple function and save it to an RData file using the 'save' function.
 ##    Remove the function from the workspace using 'rm', then load it back again
 ##    using the 'load' function. Test that the function works.
 
-
+kk2 <- function(y){
+  x = y + 3
+  print(x)
+}
+save(kk2, file="kk2.RData", compress='xz') 
+load("kk2.RData")
+kk2(7)
 ## 7. Create a data frame with one column of 1000 unique IDs, one column that
 ##    indicates membership in one of two groups (e.g., first 500 in group 'A',
 ##    second 500 in group 'B'), and one column of normal random values with 

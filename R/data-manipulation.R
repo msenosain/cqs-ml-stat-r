@@ -8,7 +8,7 @@ library('reshape2')
 
 help("airquality")
 data("airquality")
-names(airquality) <- tolower(names(airquality))
+names(airquality) <- tolower(names(airquality)) # changes the names to low case
 head(airquality)
 
 ## multiple measurements per 'id' can be stored in 'wide' or 'long' format
@@ -29,7 +29,9 @@ head(aqc)
 ## convert to long format using base function reshape
 aql <- reshape(airquality,
                varying = c('ozone', 'solar.r', 'wind', 'temp'),
+               # varying = list(c('ozone', 'solar.r'), c('wind', 'temp')),
                v.names = 'value',
+               # v.names = c("os_value", 'wt_value'), 
                timevar = 'variable',
                times = c('ozone', 'solar.r', 'wind', 'temp'),
                idvar = 'id', direction='long')

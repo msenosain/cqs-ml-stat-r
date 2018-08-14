@@ -50,7 +50,7 @@ sd(y)
 ## Character vectors
 
 c("a", "b", "c")
-c('a', 'b', 'c')
+m <- c('a', 'b', 'c')
 letters[1:3]
 paste('group', letters[1:3])
 
@@ -142,9 +142,9 @@ x=rnorm(100)
 y=rnorm(100)
 plot(x,y)
 plot(x,y,xlab="this is the x-axis",ylab="this is the y-axis",main="Plot of X vs Y")
-pdf("Figure.pdf")
+pdf("Figure.pdf") # creates a pdf file in your working directory
 plot(x,y,col="green")
-dev.off()
+dev.off() #
 x=seq(-pi,pi,length=50)
 y=x
 f=outer(x,y,function(x,y)cos(y)/(1+x^2))
@@ -165,33 +165,46 @@ persp(x,y,fa,theta=30,phi=40)
 
 ## 1. Look through the help file for 'plot', then recreate any figure above and set
 ##    the subtitle to "subtitle".
-
+x=rnorm(100)
+y=rnorm(100)
+plot(x,y)
+plot(x,y,xlab="this is the x-axis",ylab="this is the y-axis",main="Something", sub='subtitle')
 
 ## 2. Find two different expressions to create a 3 x 3 (row x col) matrix with the
 ##    values 2, 4, and 6 in the rows.
-
-
+xx <- matrix(c(2,4,6), nrow = 3, ncol = 3, byrow = TRUE)
+xx2 <- as.matrix(rbind(c(2,4,6),c(2,4,6),c(2,4,6)))
 ## 3. What happens when you collate ("c()") a list and a vector? List and a list?
 
+  # It creates a list of vectors
+  # It creates a list of lists
 
 ## 4. Install and load the "manipulate" package.
-
+  install.packages('manipulate')
 
 ## 5. Use the "manipulate" function to interactively vary the "phi" argument to
 ##    "persp" in the above example. Use persp(x,y,fa,theta=30,phi=phi_slider) 
 ##    as the first argument (see the "manipulate" help file and examples).
-
+library(manipulate)
+  x=seq(-pi,pi,length=50)
+  y=x
+  manipulate(
+    persp(x,y,fa,theta=30,phi=phi_slider),
+    phi_slider = slider(0,15)
+  )
 
 ## 6. Generate 10 values from the normal distribution with mean 5 and sd 3 and
 ##    compute their sample mean.
-
+cc <- rnorm(n = 10,mean = 5,sd = 3)
 
 ## 7. Use the "replicate" function to repeat item 6. 1000 times.
-
+replicate(1000, cc[6])
 
 ## 8. Use the "hist" function to plot a histogram of the sample
 ##    means from item 7. Repeat where N = 50 instead of 10. Use
 ##    the 'add = TRUE' and 'col = "red"' arguments to the 'hist'
 ##    function to add the second histogram to the first for
 ##    for comparison.
-
+cc2 <- rnorm(n = 50,mean = 5,sd = 3)
+kk <- hist(cc2[7], add= TRUE, col = 'red')
+kk
